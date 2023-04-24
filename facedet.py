@@ -50,6 +50,10 @@ sub = z.declare_subscriber(args.key, frames_listener)
 # load AI model
 face_cascade = cv2.CascadeClassifier('./haarcascade_frontalface_default.xml')
 
+# Define the codec and create VideoWriter object
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+out = cv2.VideoWriter('output.avi', fourcc, 30.0, (500,  375))
+
 
 while True:
     for cam in list(cams):
@@ -62,7 +66,10 @@ while True:
         for (x, y, w, h) in faces:
             cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
 
-        cv2.imshow(str(cam), img)
+        print("facedet done!")
+        out.write(img)
+        # cv2.imwrite("test.png", img)
+        # cv2.imshow(str(cam), img)
         
     key = cv2.waitKey(1) & 0xFF
     time.sleep(0.05)
